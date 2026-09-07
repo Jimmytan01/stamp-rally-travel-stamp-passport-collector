@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stamp Rally — Travel Stamp Passport Collector</title>
+  <meta name="description" content="Maintain your personal digital travel passport of collectible ink stamps and dream destinations.">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="passport-app">
+    <header class="app-header">
+      <div class="header-container">
+        <div class="passport-emblem" aria-hidden="true"><span>★</span><span>PASSPORT</span><span>★</span></div>
+        <h1 class="app-title">STAMP RALLY</h1>
+        <p class="app-subtitle">Official Travel Stamp &amp; Visa Collector</p>
+        <section class="summary-bar" id="passport-summary" aria-label="Passport Statistics">
+          <div class="stat-card"><span class="stat-label">Total Pages</span><span class="stat-value" id="stat-total">0</span></div>
+          <div class="stat-divider" aria-hidden="true"></div>
+          <div class="stat-card stat-stamped"><span class="stat-icon" aria-hidden="true">✓</span><div><span class="stat-label">Stamps Visited</span><span class="stat-value" id="stat-visited">0</span></div></div>
+          <div class="stat-divider" aria-hidden="true"></div>
+          <div class="stat-card stat-dream"><span class="stat-icon" aria-hidden="true">✦</span><div><span class="stat-label">Dream Destinations</span><span class="stat-value" id="stat-dream">0</span></div></div>
+        </section>
+      </div>
+    </header>
+    <main class="app-main">
+      <div class="main-layout">
+        <aside class="form-panel">
+          <div class="panel-card">
+            <div class="panel-header">
+              <span class="panel-tag" aria-hidden="true">PASSPORT ISSUANCE</span>
+              <h2 class="panel-title">Record New Stamp</h2>
+              <p class="panel-desc">Stamp an official immigration seal into your travel log.</p>
+            </div>
+            <form id="stamp-form" novalidate>
+              <div class="form-group">
+                <label for="input-place" class="form-label">Place Name <span class="required-mark" aria-hidden="true">*</span> <span class="label-sub">(City, Landmark, or Country)</span></label>
+                <input type="text" id="input-place" name="place" class="form-input" placeholder="e.g. Kyoto, Grand Canyon, Paris" required maxlength="60" autocomplete="off">
+              </div>
+              <div class="form-group">
+                <label for="input-date" class="form-label">Date <span class="label-sub">(Date of visit)</span></label>
+                <input type="date" id="input-date" name="date" class="form-input">
+              </div>
+              <fieldset class="form-group color-fieldset">
+                <legend class="form-label">Ink Color <span class="label-sub">(Official seal tint)</span></legend>
+                <div class="color-palette" role="radiogroup" aria-label="Stamp ink color">
+                  <label class="color-option color-opt-blue" for="color-blue"><input type="radio" name="stamp-color" id="color-blue" value="blue" checked><span class="color-swatch" aria-hidden="true"></span><span class="color-name">Blue</span></label>
+                  <label class="color-option color-opt-red" for="color-red"><input type="radio" name="stamp-color" id="color-red" value="red"><span class="color-swatch" aria-hidden="true"></span><span class="color-name">Red</span></label>
+                  <label class="color-option color-opt-green" for="color-green"><input type="radio" name="stamp-color" id="color-green" value="green"><span class="color-swatch" aria-hidden="true"></span><span class="color-name">Green</span></label>
+                  <label class="color-option color-opt-purple" for="color-purple"><input type="radio" name="stamp-color" id="color-purple" value="purple"><span class="color-swatch" aria-hidden="true"></span><span class="color-name">Purple</span></label>
+                  <label class="color-option color-opt-gold" for="color-gold"><input type="radio" name="stamp-color" id="color-gold" value="gold"><span class="color-swatch" aria-hidden="true"></span><span class="color-name">Gold</span></label>
+                </div>
+              </fieldset>
+              <div class="form-group">
+                <div class="label-row">
+                  <label for="input-memory" class="form-label">Short Memory <span class="label-sub">(1–2 sentence note)</span></label>
+                  <span id="char-count" class="char-count" aria-live="polite">0/180</span>
+                </div>
+                <textarea id="input-memory" name="memory" class="form-textarea" rows="3" maxlength="180" placeholder="e.g. Scent of cedar incense and early morning rain on torii gates..."></textarea>
+              </div>
+              <div class="form-group checkbox-group">
+                <label class="checkbox-label" for="input-dream">
+                  <input type="checkbox" id="input-dream" name="isDream" class="checkbox-input">
+                  <span class="checkbox-custom" aria-hidden="true"></span>
+                  <span class="checkbox-text"><strong>Dream Destination</strong><span class="checkbox-hint">Unvisited wishlist — styled with dashed border &amp; faded ink</span></span>
+                </label>
+              </div>
+              <button type="submit" id="btn-submit-stamp" class="btn btn-primary btn-block"><span aria-hidden="true">✍</span> Stamp Passport Page</button>
+            </form>
+          </div>
+        </aside>
+        <section class="gallery-panel" aria-label="Passport Pages Gallery">
+          <div class="gallery-header">
+            <div class="gallery-title-wrap">
+              <h2 class="gallery-title">Passport Entries</h2>
+              <span class="gallery-subtitle">Digital visa pages stamped with your travels</span>
+            </div>
+            <nav class="filter-tabs" aria-label="Filter entries">
+              <button type="button" class="tab-btn active" data-filter="all">All Pages</button>
+              <button type="button" class="tab-btn" data-filter="visited">Visited</button>
+              <button type="button" class="tab-btn" data-filter="dream">Dreams</button>
+            </nav>
+          </div>
+          <div id="stamps-grid" class="stamps-grid" aria-live="polite"></div>
+        </section>
+      </div>
+    </main>
+    <footer class="app-footer">
+      <p>Stamp Rally &copy; Official Personal Travel Passport &bull; Client-side Offline Persistent Record</p>
+    </footer>
+  </div>
+  <dialog id="delete-modal" class="confirm-modal" aria-labelledby="modal-title" aria-describedby="modal-desc">
+    <div class="modal-box">
+      <div class="modal-seal" aria-hidden="true">✕</div>
+      <h3 id="modal-title" class="modal-title">Revoke Passport Stamp?</h3>
+      <p id="modal-desc" class="modal-desc">Are you sure you want to remove the stamp for <strong id="delete-stamp-name">this place</strong>? This page will be permanently excised from your passport.</p>
+      <div class="modal-actions">
+        <button type="button" id="modal-btn-cancel" class="btn btn-secondary">Keep Stamp</button>
+        <button type="button" id="modal-btn-confirm" class="btn btn-danger">Yes, Revoke Stamp</button>
+      </div>
+    </div>
+  </dialog>
+  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
