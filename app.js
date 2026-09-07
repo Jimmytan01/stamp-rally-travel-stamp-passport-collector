@@ -84,8 +84,9 @@ function initApp() {
 
   filterButtons.forEach((btn) => {
     btn.addEventListener('click', () => {
-      filterButtons.forEach((b) => b.classList.remove('active'));
+      filterButtons.forEach((b) => { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
       btn.classList.add('active');
+      btn.setAttribute('aria-pressed', 'true');
       setFilter(btn.getAttribute('data-filter') || 'all');
     });
   });

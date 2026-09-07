@@ -110,6 +110,10 @@ export function openDeleteConfirmModal(stamp, onConfirm) {
 export function showToast(message, type = 'info', durationMs = 3500) {
   const container = document.getElementById('toast-container');
   if (!container) return;
+  // Cap visible toasts at 2 to prevent stacking overlap on narrow screens
+  while (container.children.length >= 2) {
+    container.removeChild(container.firstChild);
+  }
   const toast = document.createElement('div');
   toast.className = `toast toast-${type}`;
   toast.setAttribute('role', type === 'error' ? 'alert' : 'status');
